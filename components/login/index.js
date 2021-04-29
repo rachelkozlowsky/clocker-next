@@ -86,7 +86,7 @@ export const Login = () => {
       <Box p={4} >
       
 
-      
+      {/* <Button colorScheme="blue" width="100%" onClick={handleSubmit} isLoading={isSubmitting}> Entrar </Button> */}
       <Button colorScheme="blue" width="100%" onClick={() => handleSubmit()} isLoading={isSubmitting}> Entrar </Button>
       </Box>
       </Box>
