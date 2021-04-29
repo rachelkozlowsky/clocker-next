@@ -15,11 +15,9 @@ import {
 } from '@chakra-ui/react';
 
 
-import { Logo } from './../logo';
+import { Logo } from '../logo';
 
-import firebase, { persistenceMode } from './../../config/firebase';
-//import { useEffect } from 'react';
-
+import firebase, { persistenceMode } from '../../config/firebase';
 
 const validationSchema = yup.object().shape({
   email: yup.string().email('E-mail Inválido').required('Preenchimento Obrigatório'),
@@ -45,7 +43,7 @@ export const Login = () => {
 
       try{
         const user = await firebase.auth().signInWithEmailAndPassword(values.email, values.password)
-        /* console.log(user)  *///retirar
+
       } catch(error){
         console.log('ERROR', error)
       }
@@ -60,10 +58,6 @@ export const Login = () => {
     }
   })
 
-/*   useEffect(()=>{
-    console.log('Sessao ativa ', firebase.auth().currentUser)
-  }, []) */
- 
   return (
 
     <Container centerContent p={4}>
@@ -84,10 +78,7 @@ export const Login = () => {
       </FormControl>
  
       <Box p={4} >
-      
-
-      {/* <Button colorScheme="blue" width="100%" onClick={handleSubmit} isLoading={isSubmitting}> Entrar </Button> */}
-      <Button colorScheme="blue" width="100%" onClick={() => handleSubmit()} isLoading={isSubmitting}> Entrar </Button>
+      <Button colorScheme="blue" width="100%" onClick={handleSubmit} isLoading={isSubmitting}> Entrar </Button>
       </Box>
       </Box>
 
