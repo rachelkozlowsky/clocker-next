@@ -17,7 +17,7 @@ import {
 
 import { Logo } from '../logo';
 
-import firebase, { persistenceMode } from '../../config/firebase';
+import {firebaseClient, persistenceMode } from '../../config/firebase/client';
 
 const validationSchema = yup.object().shape({
   email: yup.string().email('E-mail Inválido').required('Preenchimento Obrigatório'),
@@ -39,10 +39,10 @@ export const Login = () => {
   } = useFormik({
     onSubmit: async (values, form )=>{
 
-      firebase.auth().setPersistence(persistenceMode)
+      firebaseClient.auth().setPersistence(persistenceMode)
 
       try{
-        const user = await firebase.auth().signInWithEmailAndPassword(values.email, values.password)
+        const user = await firebaseClient.auth().signInWithEmailAndPassword(values.email, values.password)
 
       } catch(error){
         console.log('ERROR', error)
