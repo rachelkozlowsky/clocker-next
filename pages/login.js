@@ -14,10 +14,13 @@ import {
   
 } from '@chakra-ui/react';
 
+import {useEffect} from 'react';
+import {useRouter} from 'next/router';
 
-import { Logo } from '../logo';
 
-import {firebaseClient, persistenceMode } from '../../config/firebase/client';
+import { Logo } from './../components/logo';
+
+import { useAuth } from './../components/auth';
 
 const validationSchema = yup.object().shape({
   email: yup.string().email('E-mail Inválido').required('Preenchimento Obrigatório'),
@@ -25,9 +28,12 @@ const validationSchema = yup.object().shape({
 });
 
 
-export const Login = () => {
+export default function Login() {
 
-  
+  const [auth,{login}] = useAuth()
+
+  const router = useRouter()
+
   const {
     values, 
     errors, 
@@ -37,19 +43,7 @@ export const Login = () => {
     handleSubmit,
     isSubmitting,
   } = useFormik({
-    onSubmit: async (values, form )=>{
-
-      firebaseClient.auth().setPersistence(persistenceMode)
-
-      try{
-        const user = await firebaseClient.auth().signInWithEmailAndPassword(values.email, values.password)
-
-      } catch(error){
-        console.log('ERROR', error)
-      }
-     
-
-    },
+    onSubmit: login,
     validationSchema,
     initialValues:{
       email: '',
@@ -57,6 +51,12 @@ export const Login = () => {
       password: '',
     }
   })
+
+
+  
+  useEffect(() => {
+    auth.user && router.push('/agenda')
+  },[auth.user])
 
   return (
 

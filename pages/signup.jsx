@@ -1,4 +1,6 @@
 import Link from 'next/link';
+import {useRouter} from 'next/router';
+import {useEffect} from 'react';
 import {useFormik} from 'formik';
 import * as yup from 'yup';
 
@@ -10,7 +12,6 @@ import {
   Text,
   FormControl,
   FormLabel,
-  FormErrorMessage,
   FormHelperText,
   InputGroup,
   InputLeftAddon,
@@ -19,7 +20,7 @@ import {
 
 import { Logo } from "../components/logo";
 
-import firebaseClient from './../config/firebase/client';
+import { useAuth } from './../components/auth';
 
 const validationSchema = yup.object().shape({
   email: yup.string().email('E-mail Inválido').required('Preenchimento Obrigatório'),
@@ -29,6 +30,10 @@ const validationSchema = yup.object().shape({
 
 export default function Home() {
 
+ 
+  const [auth,{signup}] = useAuth()  
+  
+  const router = useRouter()
   
   const {
     values, 
@@ -39,16 +44,7 @@ export default function Home() {
     handleSubmit,
     isSubmitting,
   } = useFormik({
-    onSubmit: async (values, form )=>{
-      try{
-        const user = await firebaseClient.auth().createUserWithEmailAndPassword(values.email, values.password)
-        //console.log(user)
-      } catch(error){
-        console.log('ERROR', error)
-      }
-     
-
-    },
+    onSubmit: signup,
     validationSchema,
     initialValues:{
       email: '',
@@ -57,6 +53,9 @@ export default function Home() {
     }
   })
 
+  useEffect(() => {
+    auth.user && router.push('/agenda')
+  },[auth.user])
  
   return (
 
