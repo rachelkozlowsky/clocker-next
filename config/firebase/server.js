@@ -1,21 +1,21 @@
 import firebaseServer from 'firebase-admin';
 
 
-const app = firebase.apps.length 
-? firebase.app() 
-: firebase.initializeApp({
-    credential: firebaseServer.credential.cert({
-        type: process.env.TYPE,
-    /*     project_id: process.env.PROJECT_ID,
-        private_key_id: process.env.PRIVATE_KEY_ID,
-        private_key: process.env.PRIVATE_KEY,
-        client_email: process.env.CLIENT_EMAIL,
-        client_id: process.env.CLIENT_ID,
-        auth_uri: process.env.AUTH_URI,
-        token_uri: process.env.TOKEN_URI,
-        auth_provider_x509_cert_url: process.env.AUTH_PROVIDER_X509_CERT_URL,
-        client_x509_cert_url: process.env.CLIENT_X509_CERT_URL */
-  
+const app = firebaseServer.apps.length 
+    ? firebaseServer.app() 
+    : firebaseServer.initializeApp({
+        credential: firebaseServer.credential.cert({
+            type: "service_account",
+            auth_uri: "https://accounts.google.com/o/oauth2/auth",
+            token_uri: "https://oauth2.googleapis.com/token",
+            auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs",
+            project_id: process.env.NEXT_PUBLIC_PROJECT_ID,
+            private_key_id: process.env.NEXT_PUBLIC_PRIVATE_KEY_ID,
+            private_key: process.env.NEXT_PUBLIC_PRIVATE_KEY,
+            client_email: process.env.NEXT_PUBLIC_CLIENT_EMAIL,
+            client_id: process.env.NEXT_PUBLIC_CLIENT_ID,
+            client_cert: process.env.NEXT_PUBLIC_CLIENT_X509_CERT_URL ,
+ 
     })
 })
 

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {useState, useEffect, useContext} from 'react';
+import axios from 'axios';
 import {firebaseClient, persistenceMode} from './../../config/firebase/client'; 
 
 const AuthContext = React.createContext([{}, () => { }])
@@ -12,32 +13,32 @@ export const login = async ({ email, password }) => {
       try{
        await firebaseClient.auth().signInWithEmailAndPassword(email, password)
 
+       return firebaseClient.auth().currentUser
+
       } catch(error){
         console.log('LOGIN ERROR', error)
       }
      
 
     }
-/* 
-const logout = () => {
 
-} */
-
-export const signup = async ({email, password}) => {
+export const signup = async ({email, password, username}) => {
     try {
-        await firebaseClient.auth().createUserWithEmailAndPassword(email, password)
-        await login({email, password})
-        //setupProfile(token, username)
-       /*  const {data} = await axios({
+        //await firebaseClient.auth().createUserWithEmailAndPassword(email, password)
+        const user = await login({email, password})
+
+        const token = await user.getIdToken()
+
+        const {data} = await axios({
           method: 'post',
           url: '/api/profile',
-          data: {
-            username: values.username
+          data: {username},
+          headers: {
+            'Authorization': `Bearer ${token}`
           },
-          header: {
-            'Authentication': `Bearer ${ser.getToken()}`
-          }
-        }) */
+        })
+       console.log(data)
+
     } catch (error) {
         console.log('SIGNUP ERROR', error)
         
@@ -59,12 +60,14 @@ export const AuthProvider = ({children}) => {
     })
 
     useEffect(()=>{
-        firebaseClient.auth().onAuthStateChanged(user =>{
+        const unsubscribe = firebaseClient.auth().onAuthStateChanged(user =>{
           setAuth({
             loading: false,
             user
           })
         })
+
+        return () => unsubscribe()
       },[])
 
     return (
