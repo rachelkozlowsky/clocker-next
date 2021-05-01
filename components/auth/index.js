@@ -24,7 +24,7 @@ export const login = async ({ email, password }) => {
 
 export const signup = async ({email, password, username}) => {
     try {
-        //await firebaseClient.auth().createUserWithEmailAndPassword(email, password)
+        await firebaseClient.auth().createUserWithEmailAndPassword(email, password)
         const user = await login({email, password})
 
         const token = await user.getIdToken()
