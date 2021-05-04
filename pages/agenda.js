@@ -8,18 +8,21 @@ import {Logo} from './../components/logo';
 import {formatDate} from './../components/date';
 import {ChevronLeftIcon, ChevronRightIcon} from '@chakra-ui/icons';
 import { addDays, subDays } from 'date-fns';
-import agenda from './api/agenda';
+import { getToken } from '../config/firebase/client';
 
- const getAgenda = (when) => axios ({
+ const getAgenda = async (when) => {
+     const token = await getToken()
+    return axios ({
     method: 'get',
     url:'/api/agenda',
     params: {
         when
     },
-    /* headers:{
+    headers:{
         Authorization: `Bearer ${token}`
-    } */
+    }
 })
+}
  
 
 const Header = ({children}) =>(
