@@ -1,13 +1,16 @@
 import {useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
 import { Button, Container, Box, IconButton, SimpleGrid, Spinner } from "@chakra-ui/react";
+import {ChevronLeftIcon, ChevronRightIcon} from '@chakra-ui/icons';
+import { addDays, subDays } from 'date-fns';
 import axios from 'axios';
 import {useFetch} from '@refetty/react';
+
 import {useAuth} from './../components/auth';
 import {Logo} from './../components/logo';
 import {formatDate} from './../components/date';
-import {ChevronLeftIcon, ChevronRightIcon} from '@chakra-ui/icons';
-import { addDays, subDays } from 'date-fns';
+import {TimeBlock} from './../components/timeBlock';
+
 
  const getSchedule = async (when) => axios ({
     method: 'get',
@@ -27,13 +30,7 @@ const Header = ({children}) =>(
 
 )
 
-const TimeBlock = ({time}) => {
-    return (
-        <Button p={8} bg="blue.500" color="white">
-            {time}
-        </Button>
-    )
-}
+
 
 export default function Schedule() {
 
