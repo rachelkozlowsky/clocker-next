@@ -12,6 +12,7 @@ import {formatDate} from './../components/date';
 import {TimeBlock} from './../components/timeBlock';
 
 
+
  const getSchedule = async (when) => axios ({
     method: 'get',
     url:'/api/schedule',
@@ -49,9 +50,14 @@ export default function Schedule() {
 
     const rmDay =  () => setWhen(subDays(when, 1))
 
+
+   
+
+
 /*     useEffect(() => {
         !auth.user && router.push('/')
       },[auth.user]) */
+      
 
     useEffect(()=>{
         fetch(when)
