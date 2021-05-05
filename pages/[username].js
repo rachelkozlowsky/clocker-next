@@ -5,24 +5,21 @@ import {ChevronLeftIcon, ChevronRightIcon} from '@chakra-ui/icons';
 import { addDays, subDays, format } from 'date-fns';
 import axios from 'axios';
 import {useFetch} from '@refetty/react';
-
 import {useAuth} from './../components/auth';
 import {Logo} from './../components/logo';
 import {formatDate} from './../components/date';
 import {TimeBlock} from './../components/timeBlock';
 
 
-
- const getSchedule = async (when) => axios ({
+const getSchedule = async ({when, username}) => axios ({
     method: 'get',
     url:'/api/schedule',
     params: {
-        username: window.location.pathname.replace('/', ''),
+        username,
         date: format(when, 'yyyy-MM-dd'),
     }
 })
 
- 
 
 const Header = ({children}) =>(
 
@@ -32,37 +29,28 @@ const Header = ({children}) =>(
 
 )
 
-
-
 export default function Schedule() {
 
     const router = useRouter()
     
     const [auth, {logout}] = useAuth()
     
-
     const [when, setWhen] = useState(() => new Date())
 
     const [data, {loading, status, error}, fetch] = useFetch(getSchedule, {lazy: true})
 
- 
    
     const adDay = () => setWhen(addDays(when, 1))
 
     const rmDay =  () => setWhen(subDays(when, 1))
 
-
-   
-
-
-/*     useEffect(() => {
-        !auth.user && router.push('/')
-      },[auth.user]) */
-      
-
     useEffect(()=>{
-        fetch(when)
-    }, [when])  
+        fetch({when, username: router.query.username})
+    }, [when, router.query.username])  
+
+/*     if (error){
+        redirect(404)
+    } */
   
    
     return(
