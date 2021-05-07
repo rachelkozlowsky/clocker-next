@@ -70,6 +70,7 @@ const getSchedule = async (req, res) => {
              .get() 
         
         const docs = snapshot.docs.map(doc => doc.data())
+        
         const result = timeBlocksList.map(time => ({
             time,
             isBlocked: !!docs.find(doc => doc.time === time)
