@@ -1,3 +1,33 @@
+##
+
+## Project created in Next.js, using:
+
+* Firebase
+* chakra-ui
+* date-fns
+* refetty
+* axios
+* formik
+* yup
+* remask
+
+
+[Demo](https://clocker-next-self.vercel.app/login)
+
+
+
+
+
+Project proposed by
+
+
+[CodarMe](https://github.com/CodarMe/semana-full-stack-sem-custo)
+
+
+
+
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
